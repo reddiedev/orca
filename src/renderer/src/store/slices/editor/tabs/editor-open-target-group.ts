@@ -14,6 +14,7 @@ import type {
 import type { OpenFile } from '../types/open-file'
 import type { EditorOpenLinkIntent } from '../types/editor-open-link-intent'
 import type { TabSplitTarget } from '../../tabs/tabs-slice-contract'
+import { normalizeFileLinkOpenPlacement } from '../../../../../../shared/editor/file-link-open-placement'
 
 export function captureEditorOpenLinkIntent(
   state: Pick<AppState, 'unifiedTabsByWorktree'>,
@@ -130,7 +131,7 @@ export type EditorLinkOpenPlacement =
 
 /** Honor/refuse explicit captured targets; automatic links rank around source’s current group. */
 export function resolveEditorLinkOpenPlacement(
-  state: LinkPlacementState,
+  state: LinkPlacementState & Pick<AppState, 'settings'>,
   worktreeId: string,
   intent: EditorOpenLinkIntent,
   fileId: string,
@@ -152,6 +153,13 @@ export function resolveEditorLinkOpenPlacement(
   // Why: a closed or re-hosted source falls back to defaults, never to its stale initial group.
   if (!layout || !source || (source.executionHostId ?? null) !== intent.hostId) {
     return { kind: 'default' }
+  }
+  // Why: the Current group preference keeps the file as a tab where its link was clicked.
+  if (
+    normalizeFileLinkOpenPlacement(state.settings?.fileLinkOpenPlacement) === 'source-group' &&
+    isLiveLinkOpenGroup(state, worktreeId, source.groupId)
+  ) {
+    return { kind: 'group', groupId: source.groupId }
   }
   const groupId = pickAdjacentEditorOpenGroupId({
     layout,

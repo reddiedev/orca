@@ -1866,6 +1866,13 @@
       "lf": "LF",
       "crlf": "CRLF"
     },
+    "fileLinkOpenPlacement": {
+      "title": "Open file links in",
+      "description": "Where Open file and Cmd/Ctrl-click put a file linked from a chat or terminal. Current group opens it as a tab in the same pane instead of a split.",
+      "keywordFileLink": "file link",
+      "besideSource": "Beside source",
+      "sourceGroup": "Current group"
+    },
     "repositoryFormatter": {
       "description": "Use this project’s formatter for Format on Save.",
       "saveFailed": "Could not save formatter settings.",

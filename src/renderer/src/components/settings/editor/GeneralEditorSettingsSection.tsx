@@ -21,6 +21,7 @@ import { EditorFontFamilySetting } from './EditorFontFamilySetting'
 import { EditorFormatOnSaveSetting } from './EditorFormatOnSaveSetting'
 import { EditorInsertFinalNewlineSetting } from './EditorInsertFinalNewlineSetting'
 import { EditorEndOfLineSetting } from './EditorEndOfLineSetting'
+import { FileLinkOpenPlacementSetting } from './FileLinkOpenPlacementSetting'
 import { EditorTypographySettings } from './EditorTypographySettings'
 import {
   createAutoSaveDelayDraftState,
@@ -202,6 +203,7 @@ export function GeneralEditorSettingsSection({
             onChange={() => updateSettings({ editorInlineBlame: !settings.editorInlineBlame })}
           />
         </SearchableSetting>
+        <FileLinkOpenPlacementSetting settings={settings} updateSettings={updateSettings} />
       </SettingsGroup>
       <SettingsGroup title={t('settings.general.editorGroups.diffs', 'Diffs')}>
         <SearchableSetting
